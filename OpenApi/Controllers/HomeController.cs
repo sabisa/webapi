@@ -22,6 +22,8 @@ namespace OpenApi.Controllers
         [Route("get")]
         public IEnumerable<WeatherForecast> Get()
         {
+            var test = "";
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
