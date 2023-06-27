@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using OpenApi.Models.SettingModels;
 
 namespace OpenApi.Controllers
 {
@@ -11,11 +13,15 @@ namespace OpenApi.Controllers
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
+        private readonly PositionOptions _options;
+
+
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IOptions<PositionOptions> options)
         {
             _logger = logger;
+            _options = options.Value;
         }
 
         [HttpGet]
@@ -34,18 +40,17 @@ namespace OpenApi.Controllers
         }
 
         [HttpGet]
-        [Route("myget")]
-        public IEnumerable<WeatherForecast> MyGet()
+        [Route("getName")]
+        public string GetName()
         {
-            var test = "";
+            return _options.Name;
+        }
 
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+        [HttpGet]
+        [Route("getTitle")]
+        public string GetTitle()
+        {
+            return _options.Title;
         }
     }
 }
